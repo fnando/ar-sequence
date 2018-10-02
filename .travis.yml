@@ -1,0 +1,31 @@
+language: ruby
+sudo: false
+cache: bundler
+before_install:
+- gem install bundler
+before_script:
+- createdb test
+- curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+- chmod +x ./cc-test-reporter
+- ./cc-test-reporter before-build
+after_script:
+- ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+gemfile:
+- Gemfile
+- gemfiles/activerecord_5_2.gemfile
+- gemfiles/activerecord_5_1.gemfile
+- gemfiles/activerecord_5_0.gemfile
+addons:
+  postgresql: '10'
+  apt:
+    packages:
+    - postgresql-10
+    - postgresql-client-10
+rvm:
+- 2.5.1
+notifications:
+  email: false
+env:
+  global:
+  - PGPORT=5433
+  - secure: tJIhjywY5r1oi4ShGqAoy+Jg17u+K9KfZtvC2lGmlhd9v5sU+MmuFZqoJAM1sGSY6UTsMfKs6vifyEGnVtawv1VK1RnNzQNWCUrm/hqdNDvayIh4m4oDt27EWj6cgh5roc6Y8knmkup+rXGQiVUmUgMjjF0NhLYZPgp6UPC5NhozEE8Y31Cv0M2UUnz460XyBQAvCPq7z7/rrTVJN84ioV755U/UiingIn16RG5A13TN3xTJbIhmxFcJpn8edX7H3DUSsDafKn4e+tiTXg0WnOFTTR9P1D3kah86AT7kvf4s/6ETRnZm+Rnv30ZNIQaTFlJv6zHTCzmLsRJ4CTUFHgjIrsDbOFeZmpgxSJg5sYFPgNsNh+BovWZuWoKgSkZXh0NaFhiGhQivd4/HwX45W4BybS1/Bm79mG25k14xbQUlMXZA5gRFA3v+ih4lxDNp5YqXJJhrs4ApSOuUsPJrp/JCKZkTzKXvOgNm8EvZtZrnkEeSItbq8M20m2N38bCq/uNU+h0gCknLsoheRGB/JvOI+uBehwWAITwcaUlZPHu4/n+ASKufaqeWfZRnSEA04fIkpT4H03O8zWZwvJ+gnuEbh0t/eLOTLOJOINuT9qwgduobWyBqQC+RkkHBFEV6fFH2yld8RwCXZNu3g1q40OBN4dvvMp/8VZEVxSB0I74=
