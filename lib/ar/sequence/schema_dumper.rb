@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module AR
   module Sequence
     module SchemaDumper
@@ -19,7 +21,7 @@ module AR
           options << "increment: #{increment}" if increment && Integer(increment) != 1
 
           statement = ["create_sequence", seq["sequence_name"].inspect].join(" ")
-          statement << (options.any? ? ", " << options.join(", ") : "") if options.any?
+          statement << (options.any? ? ", #{options.join(', ')}" : "") if options.any?
 
           stream.puts "  #{statement}"
         end

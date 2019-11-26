@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 class SequenceTest < Minitest::Test
@@ -120,10 +122,10 @@ class SequenceTest < Minitest::Test
     ActiveRecord::SchemaDumper.dump(ActiveRecord::Base.connection, stream)
     contents = stream.tap(&:rewind).read
 
-    assert_match %r{create_sequence "a"$}, contents
-    assert_match %r{create_sequence "b", start: 100$}, contents
-    assert_match %r{create_sequence "c", increment: 2$}, contents
-    assert_match %r{create_sequence "d", start: 100, increment: 2$}, contents
+    assert_match /create_sequence "a"$/, contents
+    assert_match /create_sequence "b", start: 100$/, contents
+    assert_match /create_sequence "c", increment: 2$/, contents
+    assert_match /create_sequence "d", start: 100, increment: 2$/, contents
   end
 
   test "creates table that references sequence" do

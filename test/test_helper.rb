@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "simplecov"
 SimpleCov.start
 
@@ -18,7 +20,11 @@ end
 module TestHelper
   def recreate_table
     ActiveRecord::Schema.define(version: 0) do
-      drop_table(:things) rescue nil
+      begin
+        drop_table(:things)
+      rescue StandardError
+        nil
+      end
       execute "drop sequence if exists position"
       execute "drop sequence if exists a"
       execute "drop sequence if exists b"

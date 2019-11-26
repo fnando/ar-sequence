@@ -1,6 +1,6 @@
 # AR::Sequence
 
-[![Travis-CI](https://travis-ci.org/fnando/ar-sequence.png)](https://travis-ci.org/fnando/ar-sequence)
+[![Travis-CI](https://travis-ci.org/fnando/ar-sequence.svg)](https://travis-ci.org/fnando/ar-sequence)
 [![Code Climate](https://codeclimate.com/github/fnando/ar-sequence/badges/gpa.svg)](https://codeclimate.com/github/fnando/ar-sequence)
 [![Test Coverage](https://codeclimate.com/github/fnando/ar-sequence/badges/coverage.svg)](https://codeclimate.com/github/fnando/ar-sequence/coverage)
 [![Gem](https://img.shields.io/gem/v/ar-sequence.svg)](https://rubygems.org/gems/ar-sequence)
