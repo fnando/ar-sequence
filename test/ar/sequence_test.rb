@@ -108,6 +108,19 @@ class SequenceTest < Minitest::Test
     assert_nil ActiveRecord::Base.connection.check_sequences.find {|seq| seq["sequence_name"] == "position" }
   end
 
+  test "orders sequences" do
+    with_migration do
+      def up
+        create_sequence :c
+        create_sequence :a
+        create_sequence :b
+      end
+    end.up
+
+    list = ActiveRecord::Base.connection.check_sequences
+    assert_equal list.map {|s| s["sequence_name"] }, %w[a b c things_id_seq]
+  end
+
   test "dumps schema" do
     with_migration do
       def up
