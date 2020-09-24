@@ -7,8 +7,10 @@ Gem::Specification.new do |spec|
   spec.version       = AR::Sequence::VERSION
   spec.authors       = ["Nando Vieira"]
   spec.email         = ["fnando.vieira@gmail.com"]
+  spec.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
 
-  spec.summary       = "Add support for PostgreSQL's SEQUENCE on ActiveRecord migrations"
+  spec.summary       = "Add support for PostgreSQL's SEQUENCE on " \
+                       "ActiveRecord migrations"
   spec.description   = spec.summary
   spec.homepage      = "https://rubygems.org/gems/ar-sequence"
   spec.license       = "MIT"

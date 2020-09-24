@@ -105,7 +105,11 @@ class SequenceTest < Minitest::Test
       down
     end
 
-    assert_nil ActiveRecord::Base.connection.check_sequences.find {|seq| seq["sequence_name"] == "position" }
+    sequence = ActiveRecord::Base.connection.check_sequences.find do |seq|
+      seq["sequence_name"] == "position"
+    end
+
+    assert_nil sequence
   end
 
   test "orders sequences" do
@@ -135,10 +139,10 @@ class SequenceTest < Minitest::Test
     ActiveRecord::SchemaDumper.dump(ActiveRecord::Base.connection, stream)
     contents = stream.tap(&:rewind).read
 
-    assert_match /create_sequence "a"$/, contents
-    assert_match /create_sequence "b", start: 100$/, contents
-    assert_match /create_sequence "c", increment: 2$/, contents
-    assert_match /create_sequence "d", start: 100, increment: 2$/, contents
+    assert_match(/create_sequence "a"$/, contents)
+    assert_match(/create_sequence "b", start: 100$/, contents)
+    assert_match(/create_sequence "c", increment: 2$/, contents)
+    assert_match(/create_sequence "d", start: 100, increment: 2$/, contents)
   end
 
   test "creates table that references sequence" do

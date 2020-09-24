@@ -17,11 +17,23 @@ module AR
           increment = seq["increment"]
 
           options = []
-          options << "start: #{start_value}" if start_value && Integer(start_value) != 1
-          options << "increment: #{increment}" if increment && Integer(increment) != 1
 
-          statement = ["create_sequence", seq["sequence_name"].inspect].join(" ")
-          statement << (options.any? ? ", #{options.join(', ')}" : "") if options.any?
+          if start_value && Integer(start_value) != 1
+            options << "start: #{start_value}"
+          end
+
+          if increment && Integer(increment) != 1
+            options << "increment: #{increment}"
+          end
+
+          statement = [
+            "create_sequence",
+            seq["sequence_name"].inspect
+          ].join(" ")
+
+          if options.any?
+            statement << (options.any? ? ", #{options.join(', ')}" : "")
+          end
 
           stream.puts "  #{statement}"
         end

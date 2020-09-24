@@ -4,7 +4,9 @@ module AR
   module Sequence
     module Adapter
       def check_sequences
-        select_all("SELECT * FROM information_schema.sequences ORDER BY sequence_name").to_a
+        select_all(
+          "SELECT * FROM information_schema.sequences ORDER BY sequence_name"
+        ).to_a
       end
 
       def create_sequence(name, options = {})

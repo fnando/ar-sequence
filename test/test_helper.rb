@@ -40,7 +40,9 @@ module TestHelper
 
   def with_migration(&block)
     migration_class = if ActiveRecord::Migration.respond_to?(:[])
-                        ActiveRecord::Migration[ActiveRecord::Migration.current_version]
+                        ActiveRecord::Migration[
+                          ActiveRecord::Migration.current_version
+                        ]
                       else
                         ActiveRecord::Migration
                       end

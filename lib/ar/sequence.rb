@@ -17,7 +17,9 @@ module AR
   end
 end
 
-ActiveRecord::Migration::CommandRecorder.include AR::Sequence::CommandRecorder
-ActiveRecord::ConnectionAdapters::PostgreSQLAdapter.include AR::Sequence::Adapter
-ActiveRecord::SchemaDumper.prepend AR::Sequence::SchemaDumper
-ActiveRecord::Base.extend AR::Sequence::ModelMethods
+ActiveRecord::Migration::CommandRecorder.include(AR::Sequence::CommandRecorder)
+ActiveRecord::ConnectionAdapters::PostgreSQLAdapter.include(
+  AR::Sequence::Adapter
+)
+ActiveRecord::SchemaDumper.prepend(AR::Sequence::SchemaDumper)
+ActiveRecord::Base.extend(AR::Sequence::ModelMethods)
