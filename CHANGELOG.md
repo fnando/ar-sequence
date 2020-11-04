@@ -1,13 +1,24 @@
-# ar-sequence
+# Changelog
 
-#### v0.1.2
+<!--
+Prefix your message with one of the following:
 
-- Output sequence names in predictable order
+- [Added] for new features.
+- [Changed] for changes in existing functionality.
+- [Deprecated] for soon-to-be removed features.
+- [Removed] for now removed features.
+- [Fixed] for any bug fixes.
+- [Security] in case of vulnerabilities.
+-->
 
-#### v0.1.1
+## v0.1.2 - 2020-09-23
 
-- No significant changes
+- [Changed] Output sequence names in predictable order.
 
-#### v0.1.0
+## v0.1.1 - 2019-11-26
 
-- Initial release
+- No significant changes.
+
+## v0.1.0 - 2018-10-02
+
+- Initial release.
