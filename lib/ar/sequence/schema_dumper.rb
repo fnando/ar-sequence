@@ -3,9 +3,9 @@
 module AR
   module Sequence
     module SchemaDumper
-      def header(stream)
-        super
+      def trailer(stream)
         sequences(stream)
+        super
       end
 
       def sequences(stream)

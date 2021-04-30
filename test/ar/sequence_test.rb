@@ -145,6 +145,26 @@ class SequenceTest < Minitest::Test
     assert_match(/create_sequence "d", start: 100, increment: 2$/, contents)
   end
 
+  test "loading from the dumped schema" do
+    stream = StringIO.new
+    ActiveRecord::SchemaDumper.dump(ActiveRecord::Base.connection, stream)
+    contents = stream.tap(&:rewind).read
+
+    # Drop the table, then reload from the schema dump
+    with_migration do
+      def up
+        drop_table :things
+      end
+    end.up
+
+    # rubocop:disable Security/Eval
+    eval(contents)
+    # rubocop:enable Security/Eval
+
+    list = ActiveRecord::Base.connection.check_sequences
+    assert_equal list.map {|s| s["sequence_name"] }, %w[things_id_seq]
+  end
+
   test "creates table that references sequence" do
     with_migration do
       def up
