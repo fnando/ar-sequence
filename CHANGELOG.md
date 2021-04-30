@@ -11,6 +11,10 @@ Prefix your message with one of the following:
 - [Security] in case of vulnerabilities.
 -->
 
+## Unreleased
+
+- [Changed] Sequence information is now written after table information in the schema dump.
+
 ## v0.1.2 - 2020-09-23
 
 - [Changed] Output sequence names in predictable order.
