@@ -145,6 +145,23 @@ class SequenceTest < Minitest::Test
     assert_match(/create_sequence "d", start: 100, increment: 2$/, contents)
   end
 
+  test "does not dump auto-generated sequences to schema" do
+    with_migration do
+      def up
+        drop_table :things
+        create_table :things, id: :serial do |t|
+          t.text :name
+        end
+      end
+    end.up
+
+    stream = StringIO.new
+    ActiveRecord::SchemaDumper.dump(ActiveRecord::Base.connection, stream)
+    contents = stream.tap(&:rewind).read
+
+    refute_match(/create_sequence/, contents)
+  end
+
   test "creates table that references sequence" do
     with_migration do
       def up

@@ -11,6 +11,10 @@ Prefix your message with one of the following:
 - [Security] in case of vulnerabilities.
 -->
 
+## Unreleased
+
+- [Changed] Only dump sequences created by ar_sequence (using Postgres COMMENT)
+
 ## v0.1.2 - 2020-09-23
 
 - [Changed] Output sequence names in predictable order.
