@@ -3,6 +3,14 @@
 module AR
   module Sequence
     module Adapter
+      SEQUENCE_COMMENT = "created by ar-sequence"
+
+      def custom_sequence?(sequence_name)
+        execute(
+          "SELECT obj_description('#{sequence_name}'::regclass, 'pg_class');"
+        ).first["obj_description"] == SEQUENCE_COMMENT
+      end
+
       def check_sequences
         select_all(
           "SELECT * FROM information_schema.sequences ORDER BY sequence_name"
@@ -16,6 +24,8 @@ module AR
         sql = ["CREATE SEQUENCE IF NOT EXISTS #{name}"]
         sql << "INCREMENT BY #{increment}" if increment
         sql << "START WITH #{options[:start]}" if options[:start]
+        sql << ";"
+        sql << "COMMENT ON SEQUENCE #{name} IS '#{SEQUENCE_COMMENT}';"
 
         execute(sql.join("\n"))
       end

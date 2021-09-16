@@ -13,6 +13,8 @@ module AR
         return if sequences.empty?
 
         sequences.each do |seq|
+          next unless @connection.custom_sequence?(seq["sequence_name"])
+
           start_value = seq["start_value"]
           increment = seq["increment"]
 
