@@ -13,6 +13,7 @@ module TestHelper
       execute "drop sequence if exists b"
       execute "drop sequence if exists c"
       execute "drop sequence if exists d"
+      execute "drop sequence if exists my_schema.e"
 
       create_table :things do |t|
         t.integer :quantity, default: 0

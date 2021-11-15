@@ -13,7 +13,8 @@ module AR
         return if sequences.empty?
 
         sequences.each do |seq|
-          next unless @connection.custom_sequence?(seq["sequence_name"])
+          sequence_full_name = [seq["sequence_schema"], seq["sequence_name"]].join(".")
+          next unless @connection.custom_sequence?(sequence_full_name)
 
           start_value = seq["start_value"]
           increment = seq["increment"]
@@ -30,7 +31,7 @@ module AR
 
           statement = [
             "create_sequence",
-            seq["sequence_name"].inspect
+            sequence_full_name.inspect
           ].join(" ")
 
           if options.any?

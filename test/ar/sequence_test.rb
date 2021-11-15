@@ -132,6 +132,7 @@ class SequenceTest < Minitest::Test
         create_sequence :b, start: 100
         create_sequence :c, increment: 2
         create_sequence :d, start: 100, step: 2
+        create_sequence "my_schema.e"
       end
     end.up
 
@@ -143,6 +144,7 @@ class SequenceTest < Minitest::Test
     assert_match(/create_sequence "b", start: 100$/, contents)
     assert_match(/create_sequence "c", increment: 2$/, contents)
     assert_match(/create_sequence "d", start: 100, increment: 2$/, contents)
+    assert_match(/create_sequence "my_schema.e"$/, contents)
   end
 
   test "does not dump auto-generated sequences to schema" do
