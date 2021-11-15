@@ -11,6 +11,10 @@ Prefix your message with one of the following:
 - [Security] in case of vulnerabilities.
 -->
 
+## Unreleased
+
+- [Changed] Add sequences in custom schemas support.
+
 ## v0.2.0
 
 - [Changed] Only dump sequences created by ar_sequence (using Postgres COMMENT).
