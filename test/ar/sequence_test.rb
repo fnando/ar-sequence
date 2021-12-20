@@ -115,6 +115,7 @@ class SequenceTest < Minitest::Test
   test "orders sequences" do
     with_migration do
       def up
+        drop_table :things, if_exists: true
         create_sequence :c
         create_sequence :a
         create_sequence :b
@@ -122,7 +123,7 @@ class SequenceTest < Minitest::Test
     end.up
 
     list = ActiveRecord::Base.connection.check_sequences
-    assert_equal list.map {|s| s["sequence_name"] }, %w[a b c things_id_seq]
+    assert_equal list.map {|s| s["sequence_name"] }, %w[a b c]
   end
 
   test "dumps schema" do
