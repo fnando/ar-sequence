@@ -5,7 +5,7 @@
 [![Gem](https://img.shields.io/gem/v/ar-sequence.svg)](https://rubygems.org/gems/ar-sequence)
 [![Gem](https://img.shields.io/gem/dt/ar-sequence.svg)](https://rubygems.org/gems/ar-sequence)
 
-TODO: Add project description here
+Add support for PostgreSQL's `SEQUENCE` on ActiveRecord migrations.
 
 ## Installation
 
