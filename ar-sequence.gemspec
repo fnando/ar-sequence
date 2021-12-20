@@ -7,8 +7,8 @@ Gem::Specification.new do |spec|
   spec.version       = AR::Sequence::VERSION
   spec.authors       = ["Nando Vieira"]
   spec.email         = ["fnando.vieira@gmail.com"]
-  spec.required_ruby_version = Gem::Requirement.new(">= 2.6.0")
-
+  spec.required_ruby_version = Gem::Requirement.new(">= 2.7.0")
+  spec.metadata      = {"rubygems_mfa_required" => "true"}
   spec.summary       = "Add support for PostgreSQL's SEQUENCE on " \
                        "ActiveRecord migrations"
   spec.description   = spec.summary
