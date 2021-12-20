@@ -13,7 +13,7 @@ Prefix your message with one of the following:
 
 ## Unreleased
 
-- [Changed] Add sequences in custom schemas support.
+- [Changed] Dump schema names that aren't on the default search path.
 
 ## v0.2.0
 
