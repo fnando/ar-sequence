@@ -41,7 +41,7 @@ module AR
       end
 
       def quote_name(name)
-        name.split(".", 2).map { |part| quote_column_name(part) }.join(".")
+        name.split(".", 2).map {|part| quote_column_name(part) }.join(".")
       end
     end
   end

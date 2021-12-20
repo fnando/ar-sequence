@@ -8,12 +8,31 @@ module AR
         sequences(stream)
       end
 
+      def retrieve_search_path
+        user = @connection.select_one("select user").values.first
+
+        @connection
+          .select_one("show search_path")
+          .values
+          .first
+          .split(", ")
+          .map {|path| path == '"$user"' ? user : path }
+      end
+
       def sequences(stream)
         sequences = @connection.check_sequences
+        search_path = retrieve_search_path
+
         return if sequences.empty?
 
         sequences.each do |seq|
-          sequence_full_name = [seq["sequence_schema"], seq["sequence_name"]].join(".")
+          schema = seq["sequence_schema"]
+
+          sequence_full_name = [
+            search_path.include?(schema) ? nil : schema,
+            seq["sequence_name"]
+          ].compact.join(".")
+
           next unless @connection.custom_sequence?(sequence_full_name)
 
           start_value = seq["start_value"]

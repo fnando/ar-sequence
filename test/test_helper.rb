@@ -20,17 +20,14 @@ end
 module TestHelper
   def recreate_table
     ActiveRecord::Schema.define(version: 0) do
-      begin
-        drop_table(:things)
-      rescue StandardError
-        nil
-      end
+      drop_table :things, if_exists: true
       execute "drop sequence if exists position"
       execute "drop sequence if exists a"
       execute "drop sequence if exists b"
       execute "drop sequence if exists c"
       execute "drop sequence if exists d"
       execute "drop sequence if exists my_schema.e"
+      execute "create schema if not exists my_schema"
 
       create_table :things do |t|
         t.integer :quantity, default: 0
