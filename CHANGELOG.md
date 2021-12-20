@@ -15,7 +15,7 @@ Prefix your message with one of the following:
 
 - [Changed] Dump schema names that aren't on the default search path.
 
-## v0.2.0
+## v0.2.0 - 2021-09-16
 
 - [Changed] Only dump sequences created by ar_sequence (using Postgres COMMENT).
 
