@@ -19,7 +19,7 @@ module AR
 
       def create_sequence(name, options = {})
         increment = options[:increment] || options[:step]
-        name = quote_column_name(name)
+        name = quote_name(name)
 
         sql = ["CREATE SEQUENCE IF NOT EXISTS #{name}"]
         sql << "INCREMENT BY #{increment}" if increment
@@ -35,9 +35,13 @@ module AR
       #   drop_sequence :user_position
       #
       def drop_sequence(name)
-        name = quote_column_name(name)
+        name = quote_name(name)
         sql = "DROP SEQUENCE #{name}"
         execute(sql)
+      end
+
+      def quote_name(name)
+        name.split(".", 2).map {|part| quote_column_name(part) }.join(".")
       end
     end
   end

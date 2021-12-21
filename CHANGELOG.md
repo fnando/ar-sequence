@@ -11,7 +11,11 @@ Prefix your message with one of the following:
 - [Security] in case of vulnerabilities.
 -->
 
-## v0.2.0
+## Unreleased
+
+- [Changed] Dump schema names that aren't on the default search path.
+
+## v0.2.0 - 2021-09-16
 
 - [Changed] Only dump sequences created by ar_sequence (using Postgres COMMENT).
 
