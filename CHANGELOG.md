@@ -11,7 +11,7 @@ Prefix your message with one of the following:
 - [Security] in case of vulnerabilities.
 -->
 
-## Unreleased
+## v0.2.1 - 2021-12-21
 
 - [Changed] Dump schema names that aren't on the default search path.
 
