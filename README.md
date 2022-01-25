@@ -1,7 +1,6 @@
 # ar-sequence
 
 [![Tests](https://github.com/fnando/ar-sequence/workflows/Tests/badge.svg)](https://github.com/fnando/ar-sequence)
-[![Code Climate](https://codeclimate.com/github/fnando/ar-sequence/badges/gpa.svg)](https://codeclimate.com/github/fnando/ar-sequence)
 [![Gem](https://img.shields.io/gem/v/ar-sequence.svg)](https://rubygems.org/gems/ar-sequence)
 [![Gem](https://img.shields.io/gem/dt/ar-sequence.svg)](https://rubygems.org/gems/ar-sequence)
 
