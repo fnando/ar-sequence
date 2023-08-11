@@ -3,45 +3,44 @@
 module AR
   module Sequence
     module Adapter
-      SEQUENCE_COMMENT = "created by ar-sequence"
-
-      def custom_sequence?(sequence_name)
-        execute(
-          "SELECT obj_description('#{sequence_name}'::regclass, 'pg_class');"
-        ).first["obj_description"] == SEQUENCE_COMMENT
+      def custom_sequence?(_sequence_name)
+        false
       end
 
       def check_sequences
-        select_all(
-          "SELECT * FROM information_schema.sequences ORDER BY sequence_name"
-        ).to_a
+        []
       end
 
-      def create_sequence(name, options = {})
-        increment = options[:increment] || options[:step]
-        name = quote_name(name)
-
-        sql = ["CREATE SEQUENCE IF NOT EXISTS #{name}"]
-        sql << "INCREMENT BY #{increment}" if increment
-        sql << "START WITH #{options[:start]}" if options[:start]
-        sql << ";"
-        sql << "COMMENT ON SEQUENCE #{name} IS '#{SEQUENCE_COMMENT}';"
-
-        execute(sql.join("\n"))
+      def create_sequence(_name, _options = {})
+        raise AR::MethodNotAllowed, AR::MethodNotAllowed::METHOD_NOT_ALLOWED
       end
 
       # Drop a sequence by its name.
       #
       #   drop_sequence :user_position
       #
-      def drop_sequence(name)
-        name = quote_name(name)
-        sql = "DROP SEQUENCE #{name}"
-        execute(sql)
+      def drop_sequence(_name)
+        raise AR::MethodNotAllowed, AR::MethodNotAllowed::METHOD_NOT_ALLOWED
       end
 
       def quote_name(name)
         name.split(".", 2).map {|part| quote_column_name(part) }.join(".")
+      end
+
+      def nextval(_name)
+        raise AR::MethodNotAllowed, AR::MethodNotAllowed::METHOD_NOT_ALLOWED
+      end
+
+      # for connection.adapter_name = "PostgreSQL"
+      def currval(_name)
+        raise AR::MethodNotAllowed, AR::MethodNotAllowed::METHOD_NOT_ALLOWED
+      end
+
+      # for connection.adapter_name = "Mysql2"
+      alias lastval currval
+
+      def setval(_name, _value)
+        raise AR::MethodNotAllowed, AR::MethodNotAllowed::METHOD_NOT_ALLOWED
       end
     end
   end

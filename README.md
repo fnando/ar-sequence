@@ -4,7 +4,7 @@
 [![Gem](https://img.shields.io/gem/v/ar-sequence.svg)](https://rubygems.org/gems/ar-sequence)
 [![Gem](https://img.shields.io/gem/dt/ar-sequence.svg)](https://rubygems.org/gems/ar-sequence)
 
-Add support for PostgreSQL's `SEQUENCE` on ActiveRecord migrations.
+Add support for PostgreSQL's and MySQL's `SEQUENCE` on ActiveRecord migrations.
 
 ## Installation
 
@@ -68,14 +68,18 @@ This gem also adds a few helpers to interact with `SEQUENCE`s.
 
 ```ruby
 # Advance sequence and return new value
-ActiveRecord::Base.nextval("position")
+ActiveRecord::Base.connection.nextval("position")
 
-# Return value most recently obtained with nextval for specified sequence.
-ActiveRecord::Base.currval("position")
+# Return value most recently obtained with nextval for specified sequence, either
+ActiveRecord::Base.connection.currval("position")
+# or
+ActiveRecord::Base.connection.lastval("position")
 
 # Set sequence's current value
-ActiveRecord::Base.setval("position", 1234)
+ActiveRecord::Base.connection.setval("position", 1234)
 ```
+You should know that in MariaDB 'lastval' after 'setval' is 'null'
+
 
 ## Maintainer
 

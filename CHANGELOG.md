@@ -10,6 +10,8 @@ Prefix your message with one of the following:
 - [Fixed] for any bug fixes.
 - [Security] in case of vulnerabilities.
 -->
+- [Added] A maintenance for MySQL "SEQUENCE"
+- [Changed] The functions 'nextval', 'currval', 'lastval', 'setval' can now be valid only using the 'connection' method.
 
 ## v0.2.1 - 2021-12-21
 

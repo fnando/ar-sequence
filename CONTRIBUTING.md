@@ -70,6 +70,32 @@ your contribution is according to how this project works.
 - Do not change the library version. This will be done by the maintainer
   whenever a new version is about to be released.
 
+### Ruby tests
+
+- Make sure you have a test PostgreSQL database:
+```bash
+sudo psql -U USER_NAME -d test
+```
+- If it doesn't exists, create one:
+```bash
+sudo psql -U USER_NAME -d postgres
+postgres=# CREATE DATABASE test;
+```
+- Make sure you have a test MySQL database:
+```bash
+mysql
+MariaDB [(none)]> show databases;
+```
+- If it doesn't exists, create one:
+```bash
+MariaDB [(none)]> CREATE DATABASE test;
+```
+- Run the tests separately:
+```bash
+bundle exec rake TEST=test/ar/postgresql_sequence_test.rb
+bundle exec rake TEST=test/ar/mysql_sequence_test.rb
+```
+
 ### JavaScript code
 
 - This project uses [ESLint](https://eslint.org) to enforce code style. Before

@@ -1,98 +1,100 @@
 # frozen_string_literal: true
 
-require "test_helper"
+require "postgresql_test_helper"
 
-class SequenceTest < Minitest::Test
-  include TestHelper
+class PostgresqlSequenceTest < Minitest::Test
+  include PostgresqlTestHelper
 
   setup do
-    recreate_table
+    recreate_table_in_postgresql
   end
 
   test "adds sequence with default values" do
-    with_migration do
+    postgresql_with_migration do
       def up
         create_sequence :position
       end
     end.up
 
-    assert_equal 1, Thing.nextval(:position)
-    assert_equal 2, Thing.nextval(:position)
+    assert_equal 1, Thing.connection.nextval(:position)
+    assert_equal 2, Thing.connection.nextval(:position)
   end
 
   test "adds sequence reader within inherited class" do
-    with_migration do
+    postgresql_with_migration do
       def up
         create_sequence :position
       end
     end.up
 
-    assert_equal 1, InheritedThing.nextval(:position)
-    assert_equal 2, InheritedThing.nextval(:position)
+    assert_equal 1, InheritedThing.connection.nextval(:position)
+    assert_equal 2, InheritedThing.connection.nextval(:position)
   end
 
   test "adds sequence starting at 100" do
-    with_migration do
+    postgresql_with_migration do
       def up
         create_sequence :position, start: 100
       end
     end.up
 
-    assert_equal 100, Thing.nextval(:position)
-    assert_equal 101, Thing.nextval(:position)
+    assert_equal 100, Thing.connection.nextval(:position)
+    assert_equal 101, Thing.connection.nextval(:position)
   end
 
   test "adds sequence incremented by 2" do
-    with_migration do
+    postgresql_with_migration do
       def up
         create_sequence :position, increment: 2
       end
     end.up
 
-    assert_equal 1, Thing.nextval(:position)
-    assert_equal 3, Thing.nextval(:position)
+    assert_equal 1, Thing.connection.nextval(:position)
+    assert_equal 3, Thing.connection.nextval(:position)
   end
 
   test "adds sequence incremented by 2 (using :step alias)" do
-    with_migration do
+    postgresql_with_migration do
       def up
         create_sequence :position, step: 2
       end
     end.up
 
-    assert_equal 1, Thing.nextval(:position)
-    assert_equal 3, Thing.nextval(:position)
+    assert_equal 1, Thing.connection.nextval(:position)
+    assert_equal 3, Thing.connection.nextval(:position)
   end
 
-  test "returns current sequence value without incrementing it" do
-    with_migration do
+  test "returns current/last sequence value without incrementing it" do
+    postgresql_with_migration do
       def up
         create_sequence :position
       end
     end.up
 
-    Thing.nextval(:position)
+    Thing.connection.nextval(:position)
 
-    assert_equal 1, Thing.currval(:position)
-    assert_equal 1, Thing.currval(:position)
+    assert_equal 1, Thing.connection.currval(:position)
+    assert_equal 1, Thing.connection.lastval(:position)
+    assert_equal 1, Thing.connection.currval(:position)
+    assert_equal 1, Thing.connection.lastval(:position)
   end
 
   test "sets sequence value" do
-    with_migration do
+    postgresql_with_migration do
       def up
         create_sequence :position
       end
     end.up
 
-    Thing.nextval(:position)
-    assert_equal Thing.currval(:position), 1
+    Thing.connection.nextval(:position)
+    assert_equal Thing.connection.currval(:position), 1
 
-    Thing.setval(:position, 101)
-    assert_equal 101, Thing.currval(:position)
+    Thing.connection.setval(:position, 101)
+    assert_equal 101, Thing.connection.currval(:position)
   end
 
   test "drops sequence" do
-    with_migration do
+    postgresql_with_migration do
       def up
         create_sequence :position
       end
@@ -105,7 +107,7 @@ class SequenceTest < Minitest::Test
       down
     end
 
-    sequence = ActiveRecord::Base.connection.check_sequences.find do |seq|
+    sequence = PostgresqlDB.connection.check_sequences.find do |seq|
       seq["sequence_name"] == "position"
     end
 
@@ -113,7 +115,7 @@ class SequenceTest < Minitest::Test
   end
 
   test "orders sequences" do
-    with_migration do
+    postgresql_with_migration do
       def up
         drop_table :things, if_exists: true
         create_sequence :c
@@ -127,7 +129,7 @@ class SequenceTest < Minitest::Test
   end
 
   test "dumps schema" do
-    with_migration do
+    postgresql_with_migration do
       def up
         create_sequence :a
         create_sequence :b, start: 100
@@ -138,7 +140,7 @@ class SequenceTest < Minitest::Test
     end.up
 
     stream = StringIO.new
-    ActiveRecord::SchemaDumper.dump(ActiveRecord::Base.connection, stream)
+    ActiveRecord::SchemaDumper.dump(PostgresqlDB.connection, stream)
     contents = stream.tap(&:rewind).read
 
     assert_match(/create_sequence "a"$/, contents)
@@ -149,7 +151,7 @@ class SequenceTest < Minitest::Test
   end
 
   test "does not dump auto-generated sequences to schema" do
-    with_migration do
+    postgresql_with_migration do
       def up
         drop_table :things
         create_table :things, id: :serial do |t|
@@ -159,14 +161,14 @@ class SequenceTest < Minitest::Test
     end.up
 
     stream = StringIO.new
-    ActiveRecord::SchemaDumper.dump(ActiveRecord::Base.connection, stream)
+    ActiveRecord::SchemaDumper.dump(PostgresqlDB.connection, stream)
     contents = stream.tap(&:rewind).read
 
     refute_match(/create_sequence/, contents)
   end
 
   test "creates table that references sequence" do
-    with_migration do
+    postgresql_with_migration do
       def up
         drop_table :things
         create_sequence :position
