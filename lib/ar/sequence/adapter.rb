@@ -23,7 +23,10 @@ module AR
 
         sql = ["CREATE SEQUENCE IF NOT EXISTS #{name}"]
         sql << "INCREMENT BY #{increment}" if increment
+        sql << "MINVALUE #{options[:min]}" if options[:min]
+        sql << "MAXVALUE #{options[:max]}" if options[:max]
         sql << "START WITH #{options[:start]}" if options[:start]
+        sql << "CYCLE" if options[:cycle]
         sql << ";"
         sql << "COMMENT ON SEQUENCE #{name} IS '#{SEQUENCE_COMMENT}';"
 

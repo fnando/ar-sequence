@@ -27,6 +27,7 @@ module TestHelper
       execute "drop sequence if exists c"
       execute "drop sequence if exists d"
       execute "drop sequence if exists my_schema.e"
+      execute "drop sequence if exists f"
       execute "create schema if not exists my_schema"
 
       create_table :things do |t|

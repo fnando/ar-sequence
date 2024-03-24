@@ -42,6 +42,41 @@ class SequenceTest < Minitest::Test
     assert_equal 101, Thing.nextval(:position)
   end
 
+  test "adds sequence with minimum value of 10" do
+    with_migration do
+      def up
+        create_sequence :position, min: 10
+      end
+    end.up
+
+    assert_equal 10, Thing.nextval(:position)
+  end
+
+  test "adds sequence with maximum value of 1000" do
+    with_migration do
+      def up
+        create_sequence :position, max: 1000
+      end
+    end.up
+
+    Thing.setval(:position, 1000)
+    error = assert_raises(ActiveRecord::StatementInvalid) do
+      Thing.nextval(:position)
+    end
+    assert_match(/reached maximum value of sequence/, error.message)
+  end
+
+  test "adds cycling sequence with maximum value of 1000 and minimum of 1" do
+    with_migration do
+      def up
+        create_sequence :position, min: 1, max: 1000, cycle: true
+      end
+    end.up
+
+    Thing.setval(:position, 1000)
+    assert_equal 1, Thing.nextval(:position)
+  end
+
   test "adds sequence incremented by 2" do
     with_migration do
       def up
@@ -134,6 +169,7 @@ class SequenceTest < Minitest::Test
         create_sequence :c, increment: 2
         create_sequence :d, start: 100, step: 2
         create_sequence "my_schema.e"
+        create_sequence :f, min: 10, max: 1000, cycle: true
       end
     end.up
 
@@ -146,6 +182,8 @@ class SequenceTest < Minitest::Test
     assert_match(/create_sequence "c", increment: 2$/, contents)
     assert_match(/create_sequence "d", start: 100, increment: 2$/, contents)
     assert_match(/create_sequence "my_schema.e"$/, contents)
+    assert_match(/create_sequence "f", min: 10, max: 1000, cycle: true$/,
+                 contents)
   end
 
   test "does not dump auto-generated sequences to schema" do
